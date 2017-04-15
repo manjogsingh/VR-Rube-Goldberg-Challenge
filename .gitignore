@@ -24,6 +24,9 @@ ExportedObj/
 # Unity3D generated meta files
 *.pidb.meta
 
+# SteamVR generated meta files
+SteamVR.meta
+
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
