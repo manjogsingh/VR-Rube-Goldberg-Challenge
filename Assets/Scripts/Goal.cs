@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-
+    public GameObject cameraEye;
     // Use this for initialization
     void Start()
     {
@@ -27,7 +27,7 @@ public class Goal : MonoBehaviour
         {
             //check for collectables otherwise reset
             //new scene
-            if (other.gameObject.GetComponent<BallReset>().areAllCollected)
+            if (other.gameObject.GetComponent<BallReset>().areAllCollected&&cameraEye.GetComponent<Platform>().onPlatform)
             {
                 Debug.Log("Yes Goal");
             }

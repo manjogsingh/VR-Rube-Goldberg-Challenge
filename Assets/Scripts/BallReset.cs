@@ -9,10 +9,8 @@ public class BallReset : MonoBehaviour
     private Rigidbody rb;
     GameObject[] collectables;
     private int collectableCount = 0;
-    private bool ballState;
     public bool areAllCollected;
-
-    public GameObject platformArea;
+    public GameObject cameraEye;
     // Use this for initialization
     void Start()
     {
@@ -33,26 +31,20 @@ public class BallReset : MonoBehaviour
             areAllCollected = false;
         }
 
-        if (platformArea.GetComponent<Platform>().onPlatform)
+        if (cameraEye.GetComponent<Platform>().onPlatform)
         {
-            ballState = true;
-        }
-        else
-        {
-            ballState = false;
-        }
-
-        if (ballState)
-        {
-            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            gameObject.layer=0;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
         }
         else
         {
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            gameObject.layer=8;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, 1);
         }
+        Debug.Log(gameObject.layer.ToString());
+
     }
+        
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
     /// touching another rigidbody/collider.
@@ -72,6 +64,13 @@ public class BallReset : MonoBehaviour
                 collectableCount = 0;
             }
         }
+    }
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other)
+    {
         if (other.gameObject.CompareTag("Collectable"))
         {
             //collectable code

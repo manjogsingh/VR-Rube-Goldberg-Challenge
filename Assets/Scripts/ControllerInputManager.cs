@@ -79,10 +79,11 @@ public class ControllerInputManager : MonoBehaviour
             {
                 objectMenu.SetActive(true);
                 touchLast = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x;
-                if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
-                {
-                    SpawnObject();
-                }
+            }
+            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                SpawnObject();
+                Debug.Log("lol");
             }
             if (device.GetTouch(SteamVR_Controller.ButtonMask.Touchpad))
             {
@@ -147,7 +148,7 @@ public class ControllerInputManager : MonoBehaviour
             {
                 GrabObject(other);
             }
-            else if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
             {
                 DropObject(other);
             }
