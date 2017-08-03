@@ -42,10 +42,4 @@ public class ObjectManager : MonoBehaviour
     {
         Instantiate(objectPrefabList[currentObject], objectList[currentObject].transform.position, objectList[currentObject].transform.rotation);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

@@ -80,7 +80,7 @@ public class ControllerInputManager : MonoBehaviour
                 objectMenu.SetActive(true);
                 touchLast = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x;
             }
-            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)&&objectMenu.activeSelf)
             {
                 SpawnObject();
                 Debug.Log("lol");

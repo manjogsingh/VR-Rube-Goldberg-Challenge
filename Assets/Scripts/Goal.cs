@@ -27,7 +27,7 @@ public class Goal : MonoBehaviour
         {
             //check for collectables otherwise reset
             //new scene
-            if (other.gameObject.GetComponent<BallReset>().areAllCollected&&cameraEye.GetComponent<Platform>().onPlatform)
+            if (other.gameObject.GetComponent<BallReset>().areAllCollected&&cameraEye.GetComponent<AntiCheat>().onPlatform)
             {
                 Debug.Log("Yes Goal");
             }

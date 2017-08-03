@@ -10,7 +10,7 @@ public class BallReset : MonoBehaviour
     GameObject[] collectables;
     private int collectableCount = 0;
     public bool areAllCollected;
-    public GameObject cameraEye;
+    public GameObject platform;
     // Use this for initialization
     void Start()
     {
@@ -31,7 +31,7 @@ public class BallReset : MonoBehaviour
             areAllCollected = false;
         }
 
-        if (cameraEye.GetComponent<Platform>().onPlatform)
+        if (platform.GetComponent<AntiCheat>().onPlatform)
         {
             gameObject.layer=0;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
