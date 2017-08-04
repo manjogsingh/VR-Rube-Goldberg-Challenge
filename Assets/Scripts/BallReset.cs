@@ -11,12 +11,14 @@ public class BallReset : MonoBehaviour
     private int collectableCount = 0;
     public bool areAllCollected;
     public GameObject platform;
+    private bool hasMoved;
     // Use this for initialization
     void Start()
     {
         startPosition = transform.position;
         rb = GetComponent<Rigidbody>();
         collectables = GameObject.FindGameObjectsWithTag("Collectable");
+        hasMoved = false;
     }
 
     // Update is called once per frame
@@ -33,18 +35,18 @@ public class BallReset : MonoBehaviour
 
         if (platform.GetComponent<AntiCheat>().onPlatform)
         {
-            gameObject.layer=0;
+            gameObject.layer = 0;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
         }
         else
         {
-            gameObject.layer=8;
+            gameObject.layer = 8;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, 1);
         }
         Debug.Log(gameObject.layer.ToString());
 
     }
-        
+
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
     /// touching another rigidbody/collider.
@@ -54,15 +56,46 @@ public class BallReset : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            transform.position = startPosition;
-            rb.velocity = new Vector3(0, 0, 0);
-            rb.angularVelocity = new Vector3(0, 0, 0);
-
+            ResetBall();
             foreach (GameObject obj in collectables)
             {
                 obj.SetActive(true);
                 collectableCount = 0;
             }
+        }
+        
+        if (other.gameObject.CompareTag("Teleport"))
+        {
+            
+            GameObject[] obj = GameObject.FindGameObjectsWithTag("Teleport");
+
+            if (obj.Length == 2)
+            {
+                foreach (GameObject ob in obj)
+                {
+                    if (ob != other.gameObject && !hasMoved)
+                    {
+                        RaycastHit rh = new RaycastHit();
+                        Debug.DrawRay(ob.transform.position,ob.transform.forward,Color.red,10000);
+                        if (Physics.Linecast(ob.transform.position,ob.transform.forward, out rh))
+                        {
+                            hasMoved = true;
+                            //ball position to other
+                            transform.position = ob.transform.position+new Vector3(0,0,0.5f);
+                            rb.velocity = ob.transform.forward*rb.velocity.magnitude*2;
+                            //rb.angularVelocity = ob.transform.forward*rb.angularVelocity.magnitude;
+                        }
+                    }
+                    else
+                    {
+                        hasMoved = false;
+                    }
+                }
+            }
+            // else
+            // {
+            //     ResetBall();
+            // }
         }
     }
     /// <summary>
@@ -77,5 +110,12 @@ public class BallReset : MonoBehaviour
             other.gameObject.SetActive(false);
             collectableCount++;
         }
+    }
+
+    void ResetBall()
+    {
+        transform.position = startPosition;
+        rb.velocity = new Vector3(0, 0, 0);
+        rb.angularVelocity = new Vector3(0, 0, 0);
     }
 }

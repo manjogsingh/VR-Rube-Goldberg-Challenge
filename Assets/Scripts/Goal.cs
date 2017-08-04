@@ -1,20 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour
 {
-    public GameObject cameraEye;
+    public GameObject platform;
+    Scene scene;
+    int nextScene = 0;
     // Use this for initialization
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        scene = SceneManager.GetActiveScene();
+        if (scene.buildIndex < 4)
+        {
+            nextScene = scene.buildIndex + 1;
+        }
     }
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
@@ -25,11 +26,29 @@ public class Goal : MonoBehaviour
     {
         if (other.collider.CompareTag("Throwable"))
         {
+            Debug.Log(other.gameObject.GetComponent<BallReset>().areAllCollected);
+            Debug.Log(platform.GetComponent<AntiCheat>().onPlatform);
             //check for collectables otherwise reset
             //new scene
-            if (other.gameObject.GetComponent<BallReset>().areAllCollected&&cameraEye.GetComponent<AntiCheat>().onPlatform)
+            if (other.gameObject.GetComponent<BallReset>().areAllCollected && platform.GetComponent<AntiCheat>().onPlatform)
             {
                 Debug.Log("Yes Goal");
+                if (scene.name.Equals("Intro"))
+                {
+                    SteamVR_LoadLevel.Begin("Scene1");
+                }
+                else if (scene.name.Equals("Scene1"))
+                {
+                    SteamVR_LoadLevel.Begin("Scene2");
+                }
+                else if (scene.name.Equals("Scene2"))
+                {
+                    SteamVR_LoadLevel.Begin("Scene3");
+                }
+                else if (scene.name.Equals("Scene3"))
+                {
+                    SteamVR_LoadLevel.Begin("Scene4");
+                }
             }
             else
             {
