@@ -7,15 +7,11 @@ public class Goal : MonoBehaviour
 {
     public GameObject platform;
     Scene scene;
-    int nextScene = 0;
+    public bool exit=false;
     // Use this for initialization
     void Start()
     {
         scene = SceneManager.GetActiveScene();
-        if (scene.buildIndex < 4)
-        {
-            nextScene = scene.buildIndex + 1;
-        }
     }
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
@@ -26,10 +22,6 @@ public class Goal : MonoBehaviour
     {
         if (other.collider.CompareTag("Throwable"))
         {
-            Debug.Log(other.gameObject.GetComponent<BallReset>().areAllCollected);
-            Debug.Log(platform.GetComponent<AntiCheat>().onPlatform);
-            //check for collectables otherwise reset
-            //new scene
             if (other.gameObject.GetComponent<BallReset>().areAllCollected && platform.GetComponent<AntiCheat>().onPlatform)
             {
                 Debug.Log("Yes Goal");
@@ -48,6 +40,10 @@ public class Goal : MonoBehaviour
                 else if (scene.name.Equals("Scene3"))
                 {
                     SteamVR_LoadLevel.Begin("Scene4");
+                }
+                else if(scene.name.Equals("Scene4"))
+                {
+                    exit=true;
                 }
             }
             else

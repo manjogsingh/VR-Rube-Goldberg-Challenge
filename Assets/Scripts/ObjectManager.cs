@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ObjectManager : MonoBehaviour
     public List<GameObject> objectList;
     public List<GameObject> objectPrefabList;
     public int currentObject = 0;
+
+    //public Text message;
     // Use this for initialization
     void Start()
     {
@@ -40,6 +43,19 @@ public class ObjectManager : MonoBehaviour
 
     public void SpawnCurrentObject()
     {
-        Instantiate(objectPrefabList[currentObject], objectList[currentObject].transform.position, objectList[currentObject].transform.rotation);
+        if (currentObject > -1)
+        {
+            Instantiate(objectPrefabList[currentObject], objectList[currentObject].transform.position, objectList[currentObject].transform.rotation);
+            // foreach (Transform child in transform)
+            // {
+            //     if (child.name.Equals(objectList[currentObject].name))
+            //     {
+            //         Destroy(child.gameObject);
+            //     }
+            // }
+            objectList.Remove(objectList[currentObject]);
+            objectPrefabList.Remove(objectPrefabList[currentObject]);
+            currentObject--;
+        }
     }
 }

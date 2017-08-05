@@ -12,7 +12,6 @@ public class AntiCheat : MonoBehaviour
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger"+other.gameObject.name);
         if (other.gameObject.CompareTag("Platform"))
         {
             onPlatform = true;

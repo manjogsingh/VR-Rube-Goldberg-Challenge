@@ -11,6 +11,7 @@ public class BallReset : MonoBehaviour
     private int collectableCount = 0;
     public bool areAllCollected;
     public GameObject platform;
+    public GameObject IntroCanvas;
     private bool hasMoved;
     // Use this for initialization
     void Start()
@@ -43,8 +44,6 @@ public class BallReset : MonoBehaviour
             gameObject.layer = 8;
             gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, 1);
         }
-        Debug.Log(gameObject.layer.ToString());
-
     }
 
     /// <summary>
@@ -63,10 +62,10 @@ public class BallReset : MonoBehaviour
                 collectableCount = 0;
             }
         }
-        
+
         if (other.gameObject.CompareTag("Teleport"))
         {
-            
+
             GameObject[] obj = GameObject.FindGameObjectsWithTag("Teleport");
 
             if (obj.Length == 2)
@@ -76,14 +75,12 @@ public class BallReset : MonoBehaviour
                     if (ob != other.gameObject && !hasMoved)
                     {
                         RaycastHit rh = new RaycastHit();
-                        Debug.DrawRay(ob.transform.position,ob.transform.forward,Color.red,10000);
-                        if (Physics.Linecast(ob.transform.position,ob.transform.forward, out rh))
+                        Debug.DrawRay(ob.transform.position, ob.transform.forward, Color.red, 10000);
+                        if (Physics.Linecast(ob.transform.position, ob.transform.forward, out rh))
                         {
                             hasMoved = true;
-                            //ball position to other
-                            transform.position = ob.transform.position+new Vector3(0,0,0.5f);
-                            rb.velocity = ob.transform.forward*rb.velocity.magnitude*2;
-                            //rb.angularVelocity = ob.transform.forward*rb.angularVelocity.magnitude;
+                            transform.position = ob.transform.position + new Vector3(0, 0, 0.5f);
+                            rb.velocity = ob.transform.forward * rb.velocity.magnitude * 2;
                         }
                     }
                     else
@@ -92,10 +89,10 @@ public class BallReset : MonoBehaviour
                     }
                 }
             }
-            // else
-            // {
-            //     ResetBall();
-            // }
+            else
+            {
+                ResetBall();
+            }
         }
     }
     /// <summary>
@@ -109,6 +106,18 @@ public class BallReset : MonoBehaviour
             //collectable code
             other.gameObject.SetActive(false);
             collectableCount++;
+        }
+        if(other.gameObject.name.Equals("Next"))
+        {
+            IntroCanvas.GetComponent<IntroUI>().NextClick();
+        }
+        else if(other.gameObject.name.Equals("Back"))
+        {
+            IntroCanvas.GetComponent<IntroUI>().BackClick();
+        }
+        else if(other.gameObject.name.Equals("Done"))
+        {
+            IntroCanvas.GetComponent<IntroUI>().DoneClick();
         }
     }
 

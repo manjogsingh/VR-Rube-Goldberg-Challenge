@@ -53,17 +53,17 @@ public class ControllerInputManager : MonoBehaviour
                     laser.SetPosition(1, teleportLocation);
                     teleportAimer.transform.position = new Vector3(teleportLocation.x, teleportLocation.y + yNudge, teleportLocation.z);
                 }
-                else
-                {
-                    teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, transform.forward.y * 10 + transform.position.y, transform.forward.z * 10 + transform.position.z);
-                    RaycastHit groundRay;
-                    if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRay, 17, laserMask))
-                    {
-                        teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, groundRay.point.y, transform.position.z + transform.forward.z * 10);
-                    }
-                    laser.SetPosition(1, transform.forward * 10 + transform.position);
-                    teleportAimer.transform.position = teleportLocation + new Vector3(0, yNudge, 0);
-                }
+                // else
+                // {
+                //     teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, transform.forward.y * 10 + transform.position.y, transform.forward.z * 10 + transform.position.z);
+                //     RaycastHit groundRay;
+                //     if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRay, 17, laserMask))
+                //     {
+                //         teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, groundRay.point.y, transform.position.z + transform.forward.z * 10);
+                //     }
+                //     laser.SetPosition(1, transform.forward * 10 + transform.position);
+                //     teleportAimer.transform.position = teleportLocation + new Vector3(0, yNudge, 0);
+                // }
             }
 
             if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
@@ -80,10 +80,9 @@ public class ControllerInputManager : MonoBehaviour
                 objectMenu.SetActive(true);
                 touchLast = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x;
             }
-            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)&&objectMenu.activeSelf)
+            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && objectMenu.activeSelf)
             {
                 SpawnObject();
-                Debug.Log("lol");
             }
             if (device.GetTouch(SteamVR_Controller.ButtonMask.Touchpad))
             {
@@ -142,7 +141,7 @@ public class ControllerInputManager : MonoBehaviour
                 ThrowObject(other);
             }
         }
-        else if (other.gameObject.CompareTag("Structure"))
+        else if (other.gameObject.CompareTag("Structure")||other.gameObject.CompareTag("Teleport"))
         {
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             {
@@ -173,7 +172,7 @@ public class ControllerInputManager : MonoBehaviour
     void DropObject(Collider col)
     {
         col.transform.SetParent(null);
-        col.GetComponent<Rigidbody>().isKinematic = false;
+        col.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     void SwipeLeft()
