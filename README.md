@@ -1,5 +1,5 @@
 # Desription
-This is a VR Rube Goldberg Challenge to play in HTC Vives. This project is created with the help of Steam VR SDK.
+This is a VR Rube Goldberg Challenge to play in HTC Vive. This project is created with the help of Steam VR SDK.
 
 ## Main Features
 * Movement is controlled by the waypoints created throughout the environment
