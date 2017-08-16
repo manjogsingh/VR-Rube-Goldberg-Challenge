@@ -53,9 +53,15 @@ public class ObjectManager : MonoBehaviour
             //         Destroy(child.gameObject);
             //     }
             // }
+            for(int i=0;i<transform.childCount;i++)
+            {
+                Destroy(transform.GetChild(currentObject).gameObject);
+            }
             objectList.Remove(objectList[currentObject]);
             objectPrefabList.Remove(objectPrefabList[currentObject]);
             currentObject--;
+            if(currentObject<0)
+                currentObject=0;
         }
     }
 }

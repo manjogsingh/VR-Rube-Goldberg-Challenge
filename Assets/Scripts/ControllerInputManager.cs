@@ -92,7 +92,7 @@ public class ControllerInputManager : MonoBehaviour
                 swipeSum += distance;
                 if (!hasSwipedRight)
                 {
-                    if (swipeSum > 0.5f)
+                    if (swipeSum > 0.3f)
                     {
                         swipeSum = 0;
                         SwipeRight();
@@ -102,7 +102,7 @@ public class ControllerInputManager : MonoBehaviour
                 }
                 if (!hasSwipedLeft)
                 {
-                    if (swipeSum < -0.5f)
+                    if (swipeSum < -0.3f)
                     {
                         swipeSum = 0;
                         SwipeLeft();
