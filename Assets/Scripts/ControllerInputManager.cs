@@ -26,6 +26,7 @@ public class ControllerInputManager : MonoBehaviour
     public bool hasSwipedLeft;
     public bool hasSwipedRight;
     public GameObject objectMenu;
+    public GameObject emptyCanvas;
 
     // Use this for initialization
     void Start()
@@ -40,7 +41,7 @@ public class ControllerInputManager : MonoBehaviour
         device = SteamVR_Controller.Input((int)trackedObj.index);
         if (isLeftHand)
         {
-            if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
+            if (device.GetTouch(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 laser.gameObject.SetActive(true);
                 teleportAimer.SetActive(true);
@@ -53,17 +54,22 @@ public class ControllerInputManager : MonoBehaviour
                     laser.SetPosition(1, teleportLocation);
                     teleportAimer.transform.position = new Vector3(teleportLocation.x, teleportLocation.y + yNudge, teleportLocation.z);
                 }
-                // else
-                // {
-                //     teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, transform.forward.y * 10 + transform.position.y, transform.forward.z * 10 + transform.position.z);
-                //     RaycastHit groundRay;
-                //     if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRay, 17, laserMask))
-                //     {
-                //         teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, groundRay.point.y, transform.position.z + transform.forward.z * 10);
-                //     }
-                //     laser.SetPosition(1, transform.forward * 10 + transform.position);
-                //     teleportAimer.transform.position = teleportLocation + new Vector3(0, yNudge, 0);
-                // }
+                else
+                {
+                    teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, transform.forward.y * 10 + transform.position.y, transform.forward.z * 10 + transform.position.z);
+                    RaycastHit groundRay;
+                    if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRay, 17, laserMask))
+                    {
+                        teleportLocation = new Vector3(transform.forward.x * 10 + transform.position.x, groundRay.point.y, transform.position.z + transform.forward.z * 10);
+                        laser.SetPosition(1, transform.forward * 10 + transform.position);
+                    }
+                    else
+                    {
+                        teleportLocation=player.transform.position;
+                        laser.SetPosition(1, teleportLocation);
+                    }
+                    teleportAimer.transform.position = teleportLocation + new Vector3(0, yNudge, 0);
+                }
             }
 
             if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
@@ -119,6 +125,7 @@ public class ControllerInputManager : MonoBehaviour
                 hasSwipedLeft = false;
                 hasSwipedRight = false;
                 objectMenu.SetActive(false);
+                emptyCanvas.SetActive(false);
             }
         }
     }
