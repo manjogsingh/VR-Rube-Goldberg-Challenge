@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ControllerInputManager : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class ControllerInputManager : MonoBehaviour
                     }
                     else
                     {
-                        teleportLocation=player.transform.position;
+                        teleportLocation = player.transform.position;
                         laser.SetPosition(1, teleportLocation);
                     }
                     teleportAimer.transform.position = teleportLocation + new Vector3(0, yNudge, 0);
@@ -84,6 +85,15 @@ public class ControllerInputManager : MonoBehaviour
             if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 objectMenu.SetActive(true);
+                try
+                {
+                    objectMenu.transform.GetChild(0).gameObject.SetActive(true);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                    emptyCanvas.SetActive(true);
+                }
                 touchLast = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x;
             }
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && objectMenu.activeSelf)
@@ -148,7 +158,7 @@ public class ControllerInputManager : MonoBehaviour
                 ThrowObject(other);
             }
         }
-        else if (other.gameObject.CompareTag("Structure")||other.gameObject.CompareTag("Teleport"))
+        else if (other.gameObject.CompareTag("Structure") || other.gameObject.CompareTag("Teleport"))
         {
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             {
